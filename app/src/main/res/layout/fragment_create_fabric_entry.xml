@@ -12,27 +12,47 @@
         android:layout_height="wrap_content"
         android:fontFamily="casual"
         android:padding="16dp"
-        android:text="NEW FABRIC ENTRY"
+        android:text="YAY! NEW FABRIC!"
         android:textAlignment="center"
         android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- fabric line name -->
+    <!-- fabric name -->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/fabric_line_field"
+        android:id="@+id/fabric_name_field"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Fabric Line Name"
-        app:layout_constraintTop_toBottomOf="@+id/textView">
+        android:hint="Fabric Name"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:layout_editor_absoluteX="16dp">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/fabric_name_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- fabric line name -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/fabric_line_name_field"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Fabric Line Name"
+        app:layout_constraintTop_toBottomOf="@+id/fabric_name_field"
+        tools:layout_editor_absoluteX="16dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/fabric_line_name_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <!-- store purchased at -->
     <com.google.android.material.textfield.TextInputLayout
@@ -41,9 +61,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Store Purchased At"
-        app:layout_constraintTop_toBottomOf="@+id/fabric_line_field">
+        app:layout_constraintTop_toBottomOf="@+id/fabric_line_name_field"
+        tools:layout_editor_absoluteX="16dp">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/fabric_store_purchased_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -62,6 +84,7 @@
         app:layout_constraintTop_toBottomOf="@+id/store_purchased_field">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/fabric_amount_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -79,6 +102,7 @@
         app:layout_constraintTop_toBottomOf="@+id/store_purchased_field">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/fabric_price_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -95,8 +119,9 @@
         tools:layout_editor_absoluteX="16dp">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/fabric_add_notes_text"
             android:layout_width="match_parent"
-            android:layout_height="162dp" />
+            android:layout_height="125dp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -113,7 +138,7 @@
         app:srcCompat="@drawable/ic_baseline_image_24" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
+        android:id="@+id/add_picture_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="92dp"
@@ -121,10 +146,10 @@
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_baseline_photo_camera_24" />
+        app:srcCompat="@drawable/ic_baseline_add_a_photo_24" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/save_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SAVE"
