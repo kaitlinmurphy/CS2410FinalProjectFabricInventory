@@ -83,10 +83,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/store_purchased_field">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <EditText
             android:id="@+id/fabric_amount_text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="numberDecimal" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -101,10 +103,12 @@
         app:layout_constraintStart_toEndOf="@+id/fabric_amount_field"
         app:layout_constraintTop_toBottomOf="@+id/store_purchased_field">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <EditText
             android:id="@+id/fabric_price_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_width="136dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="numberDecimal" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -155,5 +159,6 @@
         android:text="SAVE"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
