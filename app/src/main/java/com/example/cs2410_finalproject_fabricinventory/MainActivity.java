@@ -3,6 +3,10 @@ package com.example.cs2410_finalproject_fabricinventory;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
+
+import com.example.cs2410_finalproject_fabricinventory.fragments.CreateFabricEntryFragment;
+import com.example.cs2410_finalproject_fabricinventory.fragments.SingleFabricEntryFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -10,5 +14,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .setReorderingAllowed(true)
+                    .add(R.id.fragment_container, SingleFabricEntryFragment.class, null)
+                    .commit();
+
+            Log.d("fragment setting", "setting fragment to new fabric entry on opening");
+        }
     }
 }
