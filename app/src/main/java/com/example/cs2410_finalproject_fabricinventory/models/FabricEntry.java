@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 @Entity
 public class FabricEntry {
     @PrimaryKey(autoGenerate = true)
-    long id;
+    public long id;
 
     @ColumnInfo
     public String fabricName;
