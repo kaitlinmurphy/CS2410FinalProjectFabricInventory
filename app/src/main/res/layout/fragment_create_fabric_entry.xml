@@ -40,7 +40,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/fabric_name_text"
+            android:id="@+id/fabric_name_display"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="1"/>
@@ -72,7 +72,7 @@
             android:hint="Fabric Line Name">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/fabric_line_name_text"
+                android:id="@+id/fabric_line_name_display"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="1"/>

@@ -13,11 +13,11 @@
         android:layout_height="204dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fabric_line_name_text"
+        app:layout_constraintTop_toBottomOf="@+id/fabric_line_name_display"
         app:srcCompat="@drawable/ic_baseline_image_24" />
 
     <TextView
-        android:id="@+id/fabric_name_text"
+        android:id="@+id/fabric_name_display"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="20dp"
@@ -30,7 +30,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/fabric_line_name_text"
+        android:id="@+id/fabric_line_name_display"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Fabric Line "
@@ -38,10 +38,10 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fabric_name_text" />
+        app:layout_constraintTop_toBottomOf="@+id/fabric_name_display" />
 
     <TextView
-        android:id="@+id/purchased_at"
+        android:id="@+id/fabric_purchased_at_display"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -51,10 +51,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/price" />
+        app:layout_constraintTop_toBottomOf="@+id/fabric_price_display" />
 
     <TextView
-        android:id="@+id/amount"
+        android:id="@+id/fabric_amount_display"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="#4F009688"
@@ -65,7 +65,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView5" />
 
     <TextView
-        android:id="@+id/price"
+        android:id="@+id/fabric_price_display"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -74,21 +74,20 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/amount" />
+        app:layout_constraintTop_toBottomOf="@+id/fabric_amount_display" />
 
     <TextView
+        android:id="@+id/fabric_additional_notes_display"
         android:layout_width="376dp"
         android:layout_height="179dp"
         android:layout_marginTop="8dp"
         android:background="#4F009688"
         android:text="Additional Notes"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/back_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.457"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/purchased_at"
-        app:layout_constraintVertical_bias="0.169" />
+        app:layout_constraintTop_toBottomOf="@+id/fabric_purchased_at_display" />
 
     <Button
         android:id="@+id/edit_entry_button"
@@ -99,13 +98,4 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
-        android:id="@+id/back_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="BACK"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/edit_entry_button"
-        app:layout_constraintHorizontal_bias="0.576"
-        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
