@@ -11,9 +11,12 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.cs2410_finalproject_fabricinventory.R;
 import com.example.cs2410_finalproject_fabricinventory.viewmodels.FabricEntriesViewModel;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class CreateFabricEntryFragment extends Fragment {
+
+    private boolean previouslySaving = false;
 
     public CreateFabricEntryFragment() {
         super(R.layout.fragment_create_fabric_entry);
@@ -24,6 +27,18 @@ public class CreateFabricEntryFragment extends Fragment {
 
         FabricEntriesViewModel viewModel = new ViewModelProvider(getActivity()).get(FabricEntriesViewModel.class);
 
+        viewModel.getSaving().observe(getViewLifecycleOwner(), (saving) -> {
+            if(saving && !previouslySaving) {
+                MaterialButton button = view.findViewById(R.id.save_button);
+                button.setEnabled(false);
+                button.setText("Saving...");
+                previouslySaving = saving;
+            }
+            else if (previouslySaving && !saving) {
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
+        });
+
         view.findViewById(R.id.save_button).setOnClickListener(saveButton -> {
             TextInputEditText fabricNameText = view.findViewById(R.id.fabric_name_text);
             TextInputEditText fabricLineNameText = view.findViewById(R.id.fabric_line_name_text);
@@ -31,14 +46,66 @@ public class CreateFabricEntryFragment extends Fragment {
             EditText fabricPriceText = view.findViewById(R.id.fabric_price_text);
             TextInputEditText fabricStorePurchasedAtText = view.findViewById(R.id.fabric_store_purchased_text);
             TextInputEditText fabricAdditionalNotesText = view.findViewById(R.id.fabric_add_notes_text);
-            viewModel.saveFabricEntry(fabricNameText.getText().toString(),
+
+            boolean valid = validateEntries(fabricNameText.getText().toString(),
                     fabricLineNameText.getText().toString(),
-                    Double.parseDouble(fabricAmountText.getText().toString()),
-                    Double.parseDouble(fabricPriceText.getText().toString()),
+                    fabricAmountText.getText().toString(),
+                    fabricPriceText.getText().toString(),
                     fabricStorePurchasedAtText.getText().toString(),
-                    fabricAdditionalNotesText.getText().toString()
-                    );
+                    fabricAdditionalNotesText.getText().toString());
+
+            if (valid) {
+
+                double fabricAmount;
+                if (fabricAmountText.getText().toString().isEmpty()) {
+                    fabricAmount = -1;
+                } else {
+                    fabricAmount = Double.parseDouble(fabricAmountText.getText().toString());
+                }
+
+                double fabricPrice;
+                if (fabricPriceText.getText().toString().isEmpty()) {
+                    fabricPrice = -1;
+                } else {
+                    fabricPrice = Double.parseDouble(fabricPriceText.getText().toString());
+                }
+
+                viewModel.saveFabricEntry(fabricNameText.getText().toString(),
+                        fabricLineNameText.getText().toString(),
+                        fabricAmount,
+                        fabricPrice,
+                        fabricStorePurchasedAtText.getText().toString(),
+                        fabricAdditionalNotesText.getText().toString()
+                );
+            }
         });
+    }
+
+    private boolean validateEntries(String fabricNameText, String fabricLineNameText, String fabricAmountText,
+                                    String fabricPriceText, String fabricStorePurchasedAtText,
+                                    String fabricAdditionalNotesText) {
+        // required field: fabricNameText
+        if (fabricNameText.isEmpty()) {
+            return false;
+        }
+
+        if(!fabricAmountText.isEmpty()) {
+            try {
+                Double.parseDouble(fabricAmountText);
+            } catch( NumberFormatException e) {
+                return false;
+            }
+        }
+
+        if(!fabricPriceText.isEmpty()) {
+            try {
+                Double.parseDouble(fabricPriceText);
+            } catch( NumberFormatException e) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
 }
