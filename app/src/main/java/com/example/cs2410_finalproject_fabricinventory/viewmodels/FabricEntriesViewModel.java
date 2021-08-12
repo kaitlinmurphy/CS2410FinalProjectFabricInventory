@@ -72,6 +72,7 @@ public class FabricEntriesViewModel extends AndroidViewModel {
             newEntry.createdAt = System.currentTimeMillis();
             newEntry.id = database.getFabricEntriesDao().insert(newEntry);
 
+            entries.add(newEntry);
             // put into a list
             saving.postValue(false);
         }).start();

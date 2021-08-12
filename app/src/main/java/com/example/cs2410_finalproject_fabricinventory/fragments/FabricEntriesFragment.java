@@ -80,6 +80,7 @@ public class FabricEntriesFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         view.findViewById(R.id.fab).setOnClickListener(fab -> {
+            viewModel.setCurrentEntry(null);
             getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, CreateFabricEntryFragment.class, null)
                     .setReorderingAllowed(true)

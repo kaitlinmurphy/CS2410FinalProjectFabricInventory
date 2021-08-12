@@ -36,8 +36,19 @@ public class SingleFabricEntryFragment extends Fragment {
 
                 fabricNameView.setText(entry.fabricName);
                 fabricLineNameView.setText("From Line: " + entry.fabricLineName);
-                fabricAmountView.setText(entry.amount + " yards");
-                fabricPriceView.setText("$" + entry.price + " per yard");
+
+                if (entry.amount < 0) {
+                    fabricAmountView.setText("??? yards");
+                } else {
+                    fabricAmountView.setText(entry.amount + " yards");
+                }
+
+                if (entry.price < 0) {
+                    fabricPriceView.setText("$ ??? per yard");
+                } else {
+                    fabricPriceView.setText("$" + entry.price + " per yard");
+                }
+
                 fabricPurchasedAtView.setText("From Store: " + entry.storePurchasedAt);
                 fabricAdditionalNotesView.setText("Additional Notes: \n" + entry.additionalNotes);
             }
