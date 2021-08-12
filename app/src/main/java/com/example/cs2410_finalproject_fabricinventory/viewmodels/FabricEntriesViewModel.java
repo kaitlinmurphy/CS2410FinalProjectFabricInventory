@@ -48,32 +48,56 @@ public class FabricEntriesViewModel extends AndroidViewModel {
         return entries;
     }
 
+    public void deleteCurrentEntry() {
+        new Thread(() -> {
+            database.getFabricEntriesDao().delete(currentEntry.getValue());
+            entries.remove(currentEntry.getValue());
+            currentEntry.postValue(null);
+        }).start();
+    }
+
     public void saveFabricEntry(String fabricNameText, String fabricLineNameText, double fabricAmountText,
                                 double fabricPriceText, String fabricStorePurchasedAtText,
                                 String fabricAdditionalNotesText) {
         saving.setValue(true);
 
         new Thread(() -> {
-
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
-            FabricEntry newEntry = new FabricEntry();
+            if (currentEntry.getValue() != null) {
+                // update existing entry
+                FabricEntry current = currentEntry.getValue();
+                current.fabricName = fabricNameText;
+                current.fabricLineName = fabricLineNameText;
+                current.amount = fabricAmountText;
+                current.price = fabricPriceText;
+                current.additionalNotes = fabricAdditionalNotesText;
 
-            newEntry.fabricName = fabricNameText;
-            newEntry.fabricLineName = fabricLineNameText;
-            newEntry.amount = fabricAmountText;
-            newEntry.price = fabricPriceText;
-            newEntry.storePurchasedAt = fabricStorePurchasedAtText;
-            newEntry.additionalNotes = fabricAdditionalNotesText;
-            newEntry.createdAt = System.currentTimeMillis();
-            newEntry.id = database.getFabricEntriesDao().insert(newEntry);
+                database.getFabricEntriesDao().update(current);
+                currentEntry.postValue(current);
 
-            entries.add(newEntry);
-            // put into a list
+                int index = entries.indexOf(current);
+                entries.set(index, current);
+            }
+            else {
+                FabricEntry newEntry = new FabricEntry();
+
+                newEntry.fabricName = fabricNameText;
+                newEntry.fabricLineName = fabricLineNameText;
+                newEntry.amount = fabricAmountText;
+                newEntry.price = fabricPriceText;
+                newEntry.storePurchasedAt = fabricStorePurchasedAtText;
+                newEntry.additionalNotes = fabricAdditionalNotesText;
+                newEntry.createdAt = System.currentTimeMillis();
+                newEntry.id = database.getFabricEntriesDao().insert(newEntry);
+
+                entries.add(newEntry);
+                // put into a list
+            }
             saving.postValue(false);
         }).start();
 

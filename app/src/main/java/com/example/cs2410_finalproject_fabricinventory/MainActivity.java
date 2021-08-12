@@ -5,9 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.example.cs2410_finalproject_fabricinventory.fragments.CreateFabricEntryFragment;
 import com.example.cs2410_finalproject_fabricinventory.fragments.FabricEntriesFragment;
-import com.example.cs2410_finalproject_fabricinventory.fragments.SingleFabricEntryFragment;
 
 public class MainActivity extends AppCompatActivity {
 

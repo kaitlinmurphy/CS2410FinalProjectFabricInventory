@@ -53,5 +53,17 @@ public class SingleFabricEntryFragment extends Fragment {
                 fabricAdditionalNotesView.setText("Additional Notes: \n" + entry.additionalNotes);
             }
         });
+
+        view.findViewById(R.id.floating_delete_button).setOnClickListener((fab) -> {
+            viewModel.deleteCurrentEntry();
+        });
+
+        view.findViewById(R.id.floating_edit_button).setOnClickListener((fab) -> {
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, CreateOrUpdateFabricEntryFragment.class, null)
+                    .setReorderingAllowed(true)
+                    .addToBackStack(null)
+                    .commit();
+        });
     }
 }

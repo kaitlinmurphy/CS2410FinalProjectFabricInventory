@@ -82,7 +82,7 @@ public class FabricEntriesFragment extends Fragment {
         view.findViewById(R.id.fab).setOnClickListener(fab -> {
             viewModel.setCurrentEntry(null);
             getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, CreateFabricEntryFragment.class, null)
+                    .replace(R.id.fragment_container, CreateOrUpdateFabricEntryFragment.class, null)
                     .setReorderingAllowed(true)
                     .addToBackStack(null)
                     .commit();
