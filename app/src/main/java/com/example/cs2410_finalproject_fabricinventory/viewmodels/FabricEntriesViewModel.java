@@ -1,13 +1,19 @@
 package com.example.cs2410_finalproject_fabricinventory.viewmodels;
 
 import android.app.Application;
+import android.net.Uri;
+import android.view.View;
+import android.widget.ImageView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableArrayList;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.room.Room;
 
+import com.example.cs2410_finalproject_fabricinventory.R;
 import com.example.cs2410_finalproject_fabricinventory.database.AppDatabase;
 import com.example.cs2410_finalproject_fabricinventory.models.FabricEntry;
 
@@ -17,6 +23,7 @@ import java.util.ArrayList;
 public class FabricEntriesViewModel extends AndroidViewModel {
     private AppDatabase database;
     private MutableLiveData<Boolean> saving = new MutableLiveData<>();
+    private MutableLiveData<Uri> pictureUri = new MutableLiveData<>();
     private ObservableArrayList<FabricEntry> entries = new ObservableArrayList<>();
     private MutableLiveData<FabricEntry> currentEntry = new MutableLiveData<>();
 
@@ -103,5 +110,13 @@ public class FabricEntriesViewModel extends AndroidViewModel {
             saving.postValue(false);
         }).start();
 
+    }
+
+    public void handlePictureSelected(Uri uri) {
+        pictureUri.setValue(uri);
+    }
+
+    public MutableLiveData<Uri> getPictureUri() {
+        return pictureUri;
     }
 }
