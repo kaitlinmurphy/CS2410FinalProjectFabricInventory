@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.cs2410_finalproject_fabricinventory">
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"></uses-permission>
 
     <application
         android:allowBackup="true"
@@ -9,6 +11,19 @@
         android:roundIcon="@mipmap/custom_fabric_icon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CS2410FinalProjectFabricInventory">
+
+        <provider
+            android:authorities="com.example.android.fileprovider"
+            android:name="androidx.core.content.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+            android:name="android.support.FILE_PATHS_PROVIDER"
+            android:resource="@xml/file_paths"
+                ></meta-data>
+        </provider>
+            
+
         <activity
             android:name=".MainActivity"
             android:exported="true">

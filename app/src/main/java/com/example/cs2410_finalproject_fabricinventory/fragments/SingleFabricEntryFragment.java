@@ -1,7 +1,9 @@
 package com.example.cs2410_finalproject_fabricinventory.fragments;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -33,6 +35,7 @@ public class SingleFabricEntryFragment extends Fragment {
                 TextView fabricPriceView = view.findViewById(R.id.fabric_price_display);
                 TextView fabricPurchasedAtView = view.findViewById(R.id.fabric_purchased_at_display);
                 TextView fabricAdditionalNotesView = view.findViewById(R.id.fabric_additional_notes_display);
+                ImageView fabricImageView = view.findViewById(R.id.fabric_image_display);
 
                 fabricNameView.setText(entry.fabricName);
                 fabricLineNameView.setText("From Line: " + entry.fabricLineName);
@@ -51,6 +54,10 @@ public class SingleFabricEntryFragment extends Fragment {
 
                 fabricPurchasedAtView.setText("From Store: " + entry.storePurchasedAt);
                 fabricAdditionalNotesView.setText("Additional Notes: \n" + entry.additionalNotes);
+
+                if(entry.pictureUri != null && !entry.pictureUri.isEmpty()) {
+                    fabricImageView.setImageURI(Uri.parse(entry.pictureUri));
+                }
             }
         });
 

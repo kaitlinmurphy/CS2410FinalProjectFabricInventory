@@ -58,7 +58,7 @@ public class FabricEntriesViewModel extends AndroidViewModel {
 
     public void saveFabricEntry(String fabricNameText, String fabricLineNameText, double fabricAmountText,
                                 double fabricPriceText, String fabricStorePurchasedAtText,
-                                String fabricAdditionalNotesText) {
+                                String fabricAdditionalNotesText, String pictureUri) {
         saving.setValue(true);
 
         new Thread(() -> {
@@ -76,6 +76,7 @@ public class FabricEntriesViewModel extends AndroidViewModel {
                 current.amount = fabricAmountText;
                 current.price = fabricPriceText;
                 current.additionalNotes = fabricAdditionalNotesText;
+                current.pictureUri = pictureUri;
 
                 database.getFabricEntriesDao().update(current);
                 currentEntry.postValue(current);
@@ -92,6 +93,7 @@ public class FabricEntriesViewModel extends AndroidViewModel {
                 newEntry.price = fabricPriceText;
                 newEntry.storePurchasedAt = fabricStorePurchasedAtText;
                 newEntry.additionalNotes = fabricAdditionalNotesText;
+                newEntry.pictureUri = pictureUri;
                 newEntry.createdAt = System.currentTimeMillis();
                 newEntry.id = database.getFabricEntriesDao().insert(newEntry);
 

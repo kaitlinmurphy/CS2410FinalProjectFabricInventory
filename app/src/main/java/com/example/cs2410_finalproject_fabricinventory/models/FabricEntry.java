@@ -1,5 +1,7 @@
 package com.example.cs2410_finalproject_fabricinventory.models;
 
+import android.net.Uri;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -29,5 +31,7 @@ public class FabricEntry {
 
     @ColumnInfo(name= "created_at")
     public long createdAt;
-    //Image???
+
+    @ColumnInfo
+    public String pictureUri;
 }

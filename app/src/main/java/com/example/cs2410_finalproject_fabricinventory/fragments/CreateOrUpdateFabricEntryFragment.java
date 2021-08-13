@@ -1,9 +1,15 @@
 package com.example.cs2410_finalproject_fabricinventory.fragments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts.GetContent;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -17,6 +23,8 @@ import com.google.android.material.textfield.TextInputEditText;
 public class CreateOrUpdateFabricEntryFragment extends Fragment {
 
     private boolean previouslySaving = false;
+
+    private Uri pictureUri;
 
     public CreateOrUpdateFabricEntryFragment() {
         super(R.layout.fragment_create_fabric_entry);
@@ -35,6 +43,7 @@ public class CreateOrUpdateFabricEntryFragment extends Fragment {
                 EditText fabricPriceText = view.findViewById(R.id.fabric_price_text);
                 TextInputEditText fabricStorePurchasedAtText = view.findViewById(R.id.fabric_store_purchased_text);
                 TextInputEditText fabricAdditionalNotesText = view.findViewById(R.id.fabric_add_notes_text);
+                ImageView fabricImageView = view.findViewById(R.id.fabric_image_view);
 
                 fabricNameText.setText(entry.fabricName);
                 fabricLineNameText.setText(entry.fabricLineName);
@@ -42,7 +51,11 @@ public class CreateOrUpdateFabricEntryFragment extends Fragment {
                 fabricPriceText.setText("" + entry.price);
                 fabricStorePurchasedAtText.setText(entry.storePurchasedAt);
                 fabricAdditionalNotesText.setText(entry.additionalNotes);
+                if(entry.pictureUri != null && !entry.pictureUri.isEmpty()) {
+                    pictureUri = Uri.parse(entry.pictureUri);
+                    fabricImageView.setImageURI(pictureUri);
                 }
+            }
         });
 
         viewModel.getSaving().observe(getViewLifecycleOwner(), (saving) -> {
@@ -57,6 +70,19 @@ public class CreateOrUpdateFabricEntryFragment extends Fragment {
             }
         });
 
+        // TODO actually do this
+        ActivityResultLauncher<String> mGetContent = registerForActivityResult(new GetContent(),
+                uri -> {
+                    ImageView imageView = view.findViewById(R.id.fabric_image_view);
+                    pictureUri = uri;
+                    imageView.setImageURI(pictureUri);
+                });
+
+        view.findViewById(R.id.add_picture_fab).setOnClickListener(addPictureButton -> {
+
+            mGetContent.launch("image/*");
+        });
+
         view.findViewById(R.id.save_button).setOnClickListener(saveButton -> {
             TextInputEditText fabricNameText = view.findViewById(R.id.fabric_name_display);
             TextInputEditText fabricLineNameText = view.findViewById(R.id.fabric_line_name_display);
@@ -64,6 +90,7 @@ public class CreateOrUpdateFabricEntryFragment extends Fragment {
             EditText fabricPriceText = view.findViewById(R.id.fabric_price_text);
             TextInputEditText fabricStorePurchasedAtText = view.findViewById(R.id.fabric_store_purchased_text);
             TextInputEditText fabricAdditionalNotesText = view.findViewById(R.id.fabric_add_notes_text);
+            ImageView fabricImageView = view.findViewById(R.id.fabric_image_view);
 
             boolean valid = validateEntries(fabricNameText.getText().toString(),
                     fabricLineNameText.getText().toString(),
@@ -93,7 +120,8 @@ public class CreateOrUpdateFabricEntryFragment extends Fragment {
                         fabricAmount,
                         fabricPrice,
                         fabricStorePurchasedAtText.getText().toString(),
-                        fabricAdditionalNotesText.getText().toString()
+                        fabricAdditionalNotesText.getText().toString(),
+                        pictureUri.toString()
                 );
             }
         });
