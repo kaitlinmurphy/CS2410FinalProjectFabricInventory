@@ -1,8 +1,10 @@
 package com.example.cs2410_finalproject_fabricinventory;
 
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -43,7 +45,9 @@ public class FabricEntriesAdapter extends RecyclerView.Adapter<FabricEntriesAdap
     @Override
     public void onBindViewHolder(@NonNull FabricEntriesAdapter.ViewHolder holder, int position) {
         TextView textView = holder.itemView.findViewById(R.id.fabric_name);
+        ImageView imageView = holder.itemView.findViewById(R.id.fabric_list_image);
         textView.setText(entries.get(position).fabricName);
+        imageView.setImageURI(Uri.parse(entries.get(position).pictureUri));
         holder.itemView.setOnClickListener(view -> {
             listener.onClick(entries.get(position));
         });

@@ -119,4 +119,8 @@ public class FabricEntriesViewModel extends AndroidViewModel {
     public MutableLiveData<Uri> getPictureUri() {
         return pictureUri;
     }
+
+    public void setPictureUri(Uri pictureUri) {
+        this.pictureUri.setValue(pictureUri);
+    }
 }

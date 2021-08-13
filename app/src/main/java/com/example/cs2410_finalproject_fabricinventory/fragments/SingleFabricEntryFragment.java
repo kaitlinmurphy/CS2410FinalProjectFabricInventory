@@ -1,5 +1,6 @@
 package com.example.cs2410_finalproject_fabricinventory.fragments;
 
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.cs2410_finalproject_fabricinventory.R;
 import com.example.cs2410_finalproject_fabricinventory.viewmodels.FabricEntriesViewModel;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class SingleFabricEntryFragment extends Fragment {
 
@@ -39,24 +41,36 @@ public class SingleFabricEntryFragment extends Fragment {
                 ImageView fabricImageView = view.findViewById(R.id.fabric_image_display);
 
                 fabricNameView.setText(entry.fabricName);
-                fabricLineNameView.setText("From Line: " + entry.fabricLineName);
+
+                if (entry.fabricLineName.isEmpty()) {
+                    fabricLineNameView.setText("From Line: N/A");
+                }
+                else {
+                    fabricLineNameView.setText("From Line: " + entry.fabricLineName);
+                }
 
                 if (entry.amount < 0) {
-                    fabricAmountView.setText("??? yards");
+                    fabricAmountView.setText("Amount: ??? yards");
                 } else {
-                    fabricAmountView.setText(entry.amount + " yards");
+                    fabricAmountView.setText("Amount: " + entry.amount + " yards");
                 }
 
                 if (entry.price < 0) {
-                    fabricPriceView.setText("$ ??? per yard");
+                    fabricPriceView.setText("Price: $ ??? per yard");
                 } else {
-                    fabricPriceView.setText("$" + entry.price + " per yard");
+                    fabricPriceView.setText("Price: $" + entry.price + " per yard");
                 }
 
-                fabricPurchasedAtView.setText("From Store: " + entry.storePurchasedAt);
+                if (entry.storePurchasedAt.isEmpty()) {
+                    fabricPurchasedAtView.setText("From Store: N/A");
+                }
+                else {
+                    fabricPurchasedAtView.setText("From Store: " + entry.storePurchasedAt);
+                }
+
                 fabricAdditionalNotesView.setText("Additional Notes: \n" + entry.additionalNotes);
 
-                Log.d("Loading picture", entry.pictureUri.toString());
+                Log.d("Loading picture", entry.pictureUri);
 
                 if(entry.pictureUri != null && !entry.pictureUri.isEmpty()) {
                     fabricImageView.setImageURI(Uri.parse(entry.pictureUri));
@@ -65,7 +79,26 @@ public class SingleFabricEntryFragment extends Fragment {
         });
 
         view.findViewById(R.id.floating_delete_button).setOnClickListener((fab) -> {
-            viewModel.deleteCurrentEntry();
+            MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext())
+                    .setTitle("Deleting Fabric Entry")
+                    .setMessage("Are you sure you want to delete this fabric from your library?")
+                    .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            }
+                            // respond to cancel
+                    )
+                    .setPositiveButton("DELETE", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    viewModel.deleteCurrentEntry();
+                                }
+                            }
+                            // respond to cancel
+                    );
+            builder.create().show();
         });
 
         view.findViewById(R.id.floating_edit_button).setOnClickListener((fab) -> {

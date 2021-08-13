@@ -1,5 +1,6 @@
 package com.example.cs2410_finalproject_fabricinventory.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts.GetContent;
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
@@ -43,6 +45,7 @@ public class CreateOrUpdateFabricEntryFragment extends Fragment {
     public CreateOrUpdateFabricEntryFragment() {
         super(R.layout.fragment_create_fabric_entry);
     }
+    @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -61,13 +64,28 @@ public class CreateOrUpdateFabricEntryFragment extends Fragment {
 
                 fabricNameText.setText(entry.fabricName);
                 fabricLineNameText.setText(entry.fabricLineName);
-                fabricAmountText.setText("" + entry.amount);
-                fabricPriceText.setText("" + entry.price);
+
+                if (entry.amount < 0) {
+                    fabricAmountText.setText("");
+                } else{
+                    fabricAmountText.setText("" + entry.amount);
+                }
+
+                if (entry.price < 0) {
+                    fabricPriceText.setText("");
+                } else {
+                    fabricPriceText.setText("" + entry.price);
+                }
+
                 fabricStorePurchasedAtText.setText(entry.storePurchasedAt);
                 fabricAdditionalNotesText.setText(entry.additionalNotes);
                 if(entry.pictureUri != null && !entry.pictureUri.isEmpty()) {
-                    fabricImageView.setImageURI(Uri.parse(entry.pictureUri));
+                    viewModel.setPictureUri(Uri.parse(entry.pictureUri));
+                } else {
+                    viewModel.setPictureUri(null);
                 }
+            } else {
+                viewModel.setPictureUri(null);
             }
 
         });
@@ -106,7 +124,6 @@ public class CreateOrUpdateFabricEntryFragment extends Fragment {
             EditText fabricPriceText = view.findViewById(R.id.fabric_price_text);
             TextInputEditText fabricStorePurchasedAtText = view.findViewById(R.id.fabric_store_purchased_text);
             TextInputEditText fabricAdditionalNotesText = view.findViewById(R.id.fabric_add_notes_text);
-//            ImageView fabricImageView = view.findViewById(R.id.fabric_image_view);
 
             boolean valid = validateEntries(fabricNameText.getText().toString(),
                     fabricLineNameText.getText().toString(),
@@ -137,7 +154,7 @@ public class CreateOrUpdateFabricEntryFragment extends Fragment {
                         fabricPrice,
                         fabricStorePurchasedAtText.getText().toString(),
                         fabricAdditionalNotesText.getText().toString(),
-                        viewModel.getPictureUri().toString()
+                        viewModel.getPictureUri().getValue().toString()
                 );
             }
         });
