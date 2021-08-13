@@ -2,6 +2,7 @@ package com.example.cs2410_finalproject_fabricinventory.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -49,6 +50,7 @@ public class CreateOrUpdateFabricEntryFragment extends Fragment {
         FabricEntriesViewModel viewModel = new ViewModelProvider(getActivity()).get(FabricEntriesViewModel.class);
 
         viewModel.getCurrentEntry().observe(getViewLifecycleOwner(), (entry) -> {
+            ImageView fabricImageView = view.findViewById(R.id.fabric_image_view);
             if (entry != null) {
                 TextInputEditText fabricNameText = view.findViewById(R.id.fabric_name_display);
                 TextInputEditText fabricLineNameText = view.findViewById(R.id.fabric_line_name_display);
@@ -56,7 +58,6 @@ public class CreateOrUpdateFabricEntryFragment extends Fragment {
                 EditText fabricPriceText = view.findViewById(R.id.fabric_price_text);
                 TextInputEditText fabricStorePurchasedAtText = view.findViewById(R.id.fabric_store_purchased_text);
                 TextInputEditText fabricAdditionalNotesText = view.findViewById(R.id.fabric_add_notes_text);
-                ImageView fabricImageView = view.findViewById(R.id.fabric_image_view);
 
                 fabricNameText.setText(entry.fabricName);
                 fabricLineNameText.setText(entry.fabricLineName);
@@ -68,6 +69,7 @@ public class CreateOrUpdateFabricEntryFragment extends Fragment {
                     fabricImageView.setImageURI(Uri.parse(entry.pictureUri));
                 }
             }
+
         });
 
         viewModel.getPictureUri().observe(getViewLifecycleOwner(), (pictureUri) -> {
@@ -85,19 +87,17 @@ public class CreateOrUpdateFabricEntryFragment extends Fragment {
         });
 
 
-        view.findViewById(R.id.add_picture_fab).setOnClickListener(addPictureButton -> {
-            new MaterialAlertDialogBuilder(getContext())
-                    .setTitle("Choose Image")
-                    .setItems(new CharSequence[]{"From Camera", "From Photos"}, (v, i) -> {
-                        if (i == 0) {
-                            handleTakePicturePress();
-                        }
-                        else {
-                            handleSelectPicturePress();
-                        }
-                    })
-                    .show();
-        });
+        view.findViewById(R.id.add_picture_fab).setOnClickListener(addPictureButton -> new MaterialAlertDialogBuilder(getContext())
+                .setTitle("Choose Image")
+                .setItems(new CharSequence[]{"From Camera", "From Photos"}, (v, i) -> {
+                    if (i == 0) {
+                        handleTakePicturePress();
+                    }
+                    else {
+                        handleSelectPicturePress();
+                    }
+                })
+                .show());
 
         view.findViewById(R.id.save_button).setOnClickListener(saveButton -> {
             TextInputEditText fabricNameText = view.findViewById(R.id.fabric_name_display);
@@ -106,7 +106,7 @@ public class CreateOrUpdateFabricEntryFragment extends Fragment {
             EditText fabricPriceText = view.findViewById(R.id.fabric_price_text);
             TextInputEditText fabricStorePurchasedAtText = view.findViewById(R.id.fabric_store_purchased_text);
             TextInputEditText fabricAdditionalNotesText = view.findViewById(R.id.fabric_add_notes_text);
-            ImageView fabricImageView = view.findViewById(R.id.fabric_image_view);
+//            ImageView fabricImageView = view.findViewById(R.id.fabric_image_view);
 
             boolean valid = validateEntries(fabricNameText.getText().toString(),
                     fabricLineNameText.getText().toString(),
@@ -176,8 +176,13 @@ public class CreateOrUpdateFabricEntryFragment extends Fragment {
         File imageFile = new File(getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES), imageFileName);
         currentPhotoPath = imageFile.getAbsolutePath();
         Uri uri = FileProvider.getUriForFile(getActivity(), "com.example.fabricinventory.fileprovider", imageFile);
+
+        Log.d("Getting URI from taking a picture: ", uri.toString());
+
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+
+        Log.d("Checking intent extra", intent.getExtras().get(MediaStore.EXTRA_OUTPUT).toString());
         startActivityForResult(intent, TAKE_PICTURE);
     }
 
@@ -194,15 +199,15 @@ public class CreateOrUpdateFabricEntryFragment extends Fragment {
         FabricEntriesViewModel viewModel = new ViewModelProvider(getActivity()).get(FabricEntriesViewModel.class);
 
         if (requestCode == PICK_IMAGE && resultCode == Activity.RESULT_OK) {
-            viewModel.handlePictureSelected(data.getData());
+            Uri uri = data.getData();
+            getContext().getContentResolver().takePersistableUriPermission(uri,
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION |
+                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            viewModel.handlePictureSelected(uri);
         }
 
         if (requestCode == TAKE_PICTURE && resultCode == Activity.RESULT_OK) {
-            Object uriExtra = data.getExtras().get(MediaStore.EXTRA_OUTPUT);
-            if(uriExtra instanceof Uri)
-            viewModel.handlePictureSelected((Uri) uriExtra);
-            else
-                Log.e("CreateOrUpdateFabricEntryFragment", "Returned media extra of unexpected type");
+            viewModel.handlePictureSelected(Uri.parse(currentPhotoPath));
         }
 
     }

@@ -2,6 +2,7 @@ package com.example.cs2410_finalproject_fabricinventory.fragments;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -54,6 +55,8 @@ public class SingleFabricEntryFragment extends Fragment {
 
                 fabricPurchasedAtView.setText("From Store: " + entry.storePurchasedAt);
                 fabricAdditionalNotesView.setText("Additional Notes: \n" + entry.additionalNotes);
+
+                Log.d("Loading picture", entry.pictureUri.toString());
 
                 if(entry.pictureUri != null && !entry.pictureUri.isEmpty()) {
                     fabricImageView.setImageURI(Uri.parse(entry.pictureUri));
